@@ -1,5 +1,6 @@
 import type { Game } from '@/hooks/useGames'
-import { Card, Image } from "@chakra-ui/react"
+import { Card, Image, Text } from "@chakra-ui/react"
+import PlatformIconList from './PlatformIconList'
 
 interface Props {
     game: Game
@@ -12,12 +13,13 @@ const GameCard = ({ game }: Props) => {
         <Image 
             src={game.background_image}
             width="100%"
-            height="180px" // fixed height
-            objectFit="cover" // crop image to fit nicely
+            height="180px"
+            objectFit="cover"
             borderTopRadius="lg"/>
 
         <Card.Body>
             <Card.Title mt="2">{game.name}</Card.Title>
+            <PlatformIconList platforms={game.parent_platforms.map(p => p.platform)}/>
         </Card.Body>
     </Card.Root>
   )
