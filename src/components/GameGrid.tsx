@@ -1,38 +1,9 @@
-import apiClient from '@/services/api-client';
+import useGames from '@/hooks/useGames';
 import { Text } from '@chakra-ui/react';
-import { CanceledError } from 'axios';
-import React, { useEffect, useState } from 'react'
-
-interface Game {
-    id: number,
-    name: string
-}
-
-interface FetchGameResponse {
-    count: number,
-    results: Game[]
-}
 
 const GameGrid = () => {
 
-    const [games, setGames] = useState<Game[]>([]);
-    const [error, setError] = useState();
-
-    useEffect(() => {
-
-        const controller = new AbortController();
-
-        apiClient.get<FetchGameResponse>('/games', { signal: controller.signal })
-            .then(res => setGames(res.data.results))
-            .catch(err => {
-                if (err instanceof CanceledError) {
-                    return;
-                }
-                setError(err.message)
-            });
-
-        return () => controller.abort();
-    }, [])
+    const { games, error } = useGames();
 
   return (
     <ul>
